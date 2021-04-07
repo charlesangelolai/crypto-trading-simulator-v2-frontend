@@ -1,12 +1,15 @@
 const initialState = {
+  loading: true,
   coins: [],
+  search: "",
 };
 
-const coinsReducer = (state = initialState, action) => {
+const marketReducer = (state = initialState, action) => {
   switch (action.type) {
     case "FETCH_COINS":
       return {
         ...state,
+        loading: false,
         coins: action.payload,
       };
     default:
@@ -14,4 +17,4 @@ const coinsReducer = (state = initialState, action) => {
   }
 };
 
-export default coinsReducer;
+export default marketReducer;
