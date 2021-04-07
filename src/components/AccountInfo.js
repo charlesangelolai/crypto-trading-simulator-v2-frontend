@@ -19,15 +19,25 @@ export default function AccountInfo() {
   return (
     <React.Fragment>
       <Title>Account Info</Title>
-      <Typography component="p" variant="h4">
-        $3,024.00
+      <Typography component="p" variant="h5">
+        $13,024.00
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
+        Wallet Value
+      </Typography>
+      <Typography component="p" variant="h5">
+        $3,037.00
+      </Typography>
+      <Typography color="textSecondary" className={classes.depositContext}>
+        Buying Power
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
+          Withdraw
+        </Link>
+        {" | "}
+        <Link color="primary" href="#" onClick={preventDefault}>
+          Deposit
         </Link>
       </div>
     </React.Fragment>
