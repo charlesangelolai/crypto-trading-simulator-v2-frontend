@@ -1,41 +1,86 @@
-import React from "react";
-import { useTheme } from "@material-ui/core/styles";
+import React, { useEffect } from "react";
+import { useTheme, makeStyles } from "@material-ui/core/styles";
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
+  CartesianGrid,
+  Tooltip,
   Label,
   ResponsiveContainer,
 } from "recharts";
 import Title from "./Title";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchChart } from "../actions";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { FormHelperText } from "@material-ui/core";
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
+// Generate crypto chart data
+function createData(time, price) {
+  return { time, price };
 }
 
-const data = [
-  createData("00:00", 0),
-  createData("03:00", 300),
-  createData("06:00", 600),
-  createData("09:00", 800),
-  createData("12:00", 1500),
-  createData("15:00", 2000),
-  createData("18:00", 2400),
-  createData("21:00", 2400),
-  createData("24:00", undefined),
-];
+// Convert timestamp to date
+function convertTimeStamp(timestamp) {
+  return Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(timestamp);
+}
 
-export default function Chart() {
+const useStyles = makeStyles((theme) => ({
+  loader: {
+    margin: "auto",
+    display: "flex",
+    position: "relative",
+    justiftContent: "center",
+  },
+  logo: {
+    width: 30,
+    height: 30,
+    marginTop: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5),
+    marginRight: theme.spacing(1),
+  },
+  title: {
+    display: "flex",
+    alignItems: "center",
+  },
+}));
+
+const Chart = () => {
   const theme = useTheme();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const coin = useSelector((state) => state.chart.coin);
+  const chartData = useSelector((state) => state.chart.chartData);
+  const isLoading = useSelector((state) => state.chart.loading);
+
+  const formatChartData = chartData.map((data, idx) =>
+    createData(convertTimeStamp(data[0]), data[1].toFixed(2))
+  );
+
+  useEffect(() => {
+    dispatch(fetchChart());
+  }, []);
+
+  if (isLoading) {
+    return <CircularProgress disableShrink className={classes.loader} />;
+  }
 
   return (
     <React.Fragment>
-      <Title>Today</Title>
+      <Title>
+        <div className={classes.title}>
+          <img src={coin.image} className={classes.logo} />
+          {coin.name}
+        </div>
+      </Title>
       <ResponsiveContainer>
         <LineChart
-          data={data}
+          data={formatChartData}
           margin={{
             top: 16,
             right: 16,
@@ -43,24 +88,31 @@ export default function Chart() {
             left: 24,
           }}
         >
+          <CartesianGrid strokeDasharray="1 1" />
           <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary}>
+          <YAxis
+            domain={["auto", "auto"]}
+            stroke={theme.palette.text.secondary}
+          >
             <Label
               angle={270}
               position="left"
               style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
             >
-              Sales ($)
+              Price ($)
             </Label>
           </YAxis>
+          <Tooltip />
           <Line
             type="monotone"
-            dataKey="amount"
+            dataKey="price"
             stroke={theme.palette.primary.main}
-            dot={false}
+            dot={true}
           />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>
   );
-}
+};
+
+export default Chart;
