@@ -21,7 +21,8 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Chart from "./Chart";
 import AccountInfo from "./AccountInfo";
-import CoinsList from "./CoinsList";
+import MarketTable from "./MarketTable";
+import WalletTable from "./WalletTable";
 
 function Copyright() {
   return (
@@ -117,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+const Dashboard = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -178,8 +179,8 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+        {/* <Divider />
+        <List>{secondaryListItems}</List> */}
       </Drawer>
       {/* Main */}
       <main className={classes.content}>
@@ -198,10 +199,16 @@ export default function Dashboard() {
                 <AccountInfo />
               </Paper>
             </Grid>
+            {/* Wallet Table */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <WalletTable />
+              </Paper>
+            </Grid>
             {/* Market Table */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <CoinsList />
+                <MarketTable />
               </Paper>
             </Grid>
           </Grid>
@@ -213,4 +220,6 @@ export default function Dashboard() {
       </main>
     </div>
   );
-}
+};
+
+export default Dashboard;
