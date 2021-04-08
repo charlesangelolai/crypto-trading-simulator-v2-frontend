@@ -23,19 +23,7 @@ import Chart from "./Chart";
 import AccountInfo from "./AccountInfo";
 import MarketTable from "./MarketTable";
 import WalletTable from "./WalletTable";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Crypto Trading Simulator
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "./Copyright";
 
 const drawerWidth = 240;
 
