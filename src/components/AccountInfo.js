@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -14,19 +15,25 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AccountInfo() {
+const AccountInfo = () => {
   const classes = useStyles();
+  const user = useSelector((state) => state.user.userData);
+
   return (
     <React.Fragment>
       <Title>Account Info</Title>
       <Typography component="p" variant="h5">
-        $13,024.00
+        $0.00
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         Wallet Value
       </Typography>
       <Typography component="p" variant="h5">
-        $3,037.00
+        $
+        {parseFloat(user.balance).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         Buying Power
@@ -42,4 +49,6 @@ export default function AccountInfo() {
       </div>
     </React.Fragment>
   );
-}
+};
+
+export default AccountInfo;
