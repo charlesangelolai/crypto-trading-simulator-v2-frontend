@@ -75,12 +75,30 @@ const CoinsList = () => {
                 {coin.name}
               </TableCell>
               <TableCell>{coin.symbol.toUpperCase()}</TableCell>
-              <TableCell>${coin.current_price.toFixed(2)}</TableCell>
+              <TableCell>
+                $
+                {coin.current_price.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </TableCell>
               <TableCell>
                 {coin.market_cap_change_percentage_24h.toFixed(2)}%
               </TableCell>
-              <TableCell>${coin.high_24h.toFixed(2)}</TableCell>
-              <TableCell>${coin.low_24h.toFixed(2)}</TableCell>
+              <TableCell>
+                $
+                {coin.high_24h.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </TableCell>
+              <TableCell>
+                $
+                {coin.low_24h.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </TableCell>
               <TableCell align="right">
                 <TransactionForm coin_id={coin.id} coin_name={coin.name} />
               </TableCell>
