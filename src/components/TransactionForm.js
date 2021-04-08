@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { useSelector, useDispatch } from "react-redux";
+import { buyCoin } from "../actions";
 
 const TransactionForm = ({ coin_id, coin_name }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.userData);
+  const coins = useSelector((state) => state.market.coins);
+  console.log(coins);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,7 +24,10 @@ const TransactionForm = ({ coin_id, coin_name }) => {
   };
 
   const handleSubmit = (e) => {
-    debugger;
+    e.preventDefault();
+    const coinData = coins.find((coin) => coin.id === e.target.qty.id);
+
+    dispatch(buyCoin(user, coinData, e.target.qty.value));
   };
 
   return (
