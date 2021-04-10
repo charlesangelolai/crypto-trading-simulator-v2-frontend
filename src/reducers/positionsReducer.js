@@ -21,7 +21,7 @@ const positionsReducer = (state = initialState, action) => {
         ...state,
         positions: [...state.positions, action.payload],
       };
-    case "PATCH_POSITION":
+    case "PATCH_POSITIONS":
       return {
         ...state,
         positions: action.payload,
