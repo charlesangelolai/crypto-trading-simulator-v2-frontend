@@ -1,22 +1,30 @@
 import axios from "axios";
 
-// Market Actions
-export const fetchCoins = () => {
-  return async (dispatch, getState) => {
-    const resp = await axios.get(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
-    );
+// User Actions
+export const signUp = (formData) => {
+  return async (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const body = JSON.stringify(formData);
+    try {
+      const resp = await axios.post("/users", body, config);
 
-    dispatch({
-      type: "FETCH_COINS",
-      payload: resp.data,
-    });
+      dispatch({
+        type: "SIGN_UP",
+        payload: resp.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 };
 
 // Chart Actions
 export const fetchChart = (coinID = "bitcoin") => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     dispatch({
       type: "LOADING",
     });
@@ -41,21 +49,20 @@ export const fetchChart = (coinID = "bitcoin") => {
   };
 };
 
-// User Actions
-export const signUp = (formData) => {
+// Wallet Table Actions
+export const getUserPositions = (userID) => {
   return async (dispatch) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    const body = JSON.stringify(formData);
     try {
-      const resp = await axios.post("/users", body, config);
+      const resp = await axios.get(`/users/${userID}`);
 
       dispatch({
-        type: "SIGN_UP",
-        payload: resp.data,
+        type: "GET_USER_POSITIONS",
+        payload: resp.data.positions,
       });
     } catch (err) {
       console.log(err);
@@ -63,20 +70,130 @@ export const signUp = (formData) => {
   };
 };
 
-// Trade Actions
+export const sellCoin = (user, coin, position, qty) => {
+  // check for max qty
+  qty = position.qty - qty > 0 ? position.qty - qty : qty + position.qty - qty;
+  // calculate price per coin
+  let pricePerCoin = parseFloat(position.cost) / position.qty;
+  // calculate new cost
+  let cost = position.cost - pricePerCoin * qty;
+  // calculate new qty
+  let newQty = position.qty - qty;
+  // calculate new user balance
+  let newBalance = parseFloat(user.balance) + coin.current_price * qty;
+
+  let tradeParams = {
+    trade: {
+      coin_id: coin.id,
+      coin_name: coin.name,
+      logo: coin.image,
+      symbol: coin.symbol,
+      transaction_type: "SELL",
+      qty: qty,
+      cost: cost,
+      user_id: user.id,
+    },
+  };
+
+  let positionParams = {
+    position: {
+      qty: newQty,
+      cost: cost,
+    },
+  };
+
+  let userParams = {
+    user: {
+      balance: newBalance,
+    },
+  };
+
+  return async (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const tradeBody = JSON.stringify(tradeParams);
+    const positionBody = JSON.stringify(positionParams);
+    const userBody = JSON.stringify(userParams);
+
+    try {
+      const tradeResp = await axios.post("/trades", tradeBody, config);
+      console.log(tradeResp.data);
+
+      dispatch({
+        type: "BUY_COIN",
+        payload: tradeResp.data,
+      });
+
+      if (newQty > 0) {
+        // patch
+        const positionResp = await axios.patch(
+          `/positions/${position.id}`,
+          positionBody,
+          config
+        );
+        const positionPayload = [positionResp.data].concat(
+          user.positions.filter(
+            (position) => position.id !== positionResp.data.id
+          )
+        );
+
+        dispatch({
+          type: "PATCH_POSITIONS",
+          payload: positionPayload,
+        });
+      } else {
+        // delete
+        await axios.delete(`/positions/${position.id}`);
+
+        dispatch({
+          type: "DELETE_POSITION",
+          payload: user.positions.filter((p) => p.id !== position.id),
+        });
+      }
+
+      const userResp = await axios.patch(`/users/${user.id}`, userBody, config);
+      console.log(userResp.data);
+
+      dispatch({
+        type: "UPDATE_USER",
+        payload: userResp.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+// Market Table Actions
+export const fetchCoins = () => {
+  return async (dispatch) => {
+    const resp = await axios.get(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+    );
+
+    dispatch({
+      type: "FETCH_COINS",
+      payload: resp.data,
+    });
+  };
+};
+
 export const buyCoin = (user, coin, qty) => {
   // calculate cost
   let cost = coin.current_price * qty;
   // update user balance
   let newBalance = parseFloat(user.balance) - cost;
 
-  debugger;
-
   let tradeParams = {
     trade: {
       coin_id: coin.id,
+      coin_name: coin.name,
       logo: coin.image,
-      sym: coin.symbol,
+      symbol: coin.symbol,
       transaction_type: "BUY",
       qty: qty,
       cost: cost,
@@ -87,8 +204,9 @@ export const buyCoin = (user, coin, qty) => {
   let positionParams = {
     position: {
       coin_id: coin.id,
+      coin_name: coin.name,
       logo: coin.image,
-      sym: coin.symbol,
+      symbol: coin.symbol,
       qty: qty,
       cost: cost,
       user_id: user.id,
@@ -134,12 +252,10 @@ export const buyCoin = (user, coin, qty) => {
 
       dispatch({
         type: "UPDATE_USER",
-        payload: userResp.payload,
+        payload: userResp.data,
       });
     } catch (err) {
       console.log(err);
     }
   };
 };
-
-// Wallet Actions
