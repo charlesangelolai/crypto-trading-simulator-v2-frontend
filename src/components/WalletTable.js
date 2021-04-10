@@ -6,9 +6,11 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import ShowChartIcon from "@material-ui/icons/ShowChart";
+import IconButton from "@material-ui/core/IconButton";
 import Title from "./Title";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCoins } from "../actions";
+import { fetchChart, getUserPositions } from "../actions";
 import TransactionForm from "./TransactionForm";
 
 function preventDefault(event) {
@@ -32,14 +34,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WalletList = () => {
+const WalletList = ({ coins }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const coins = useSelector((state) => state.coins);
+  const positions = useSelector((state) => state.positions.positions);
+  const user = useSelector((state) => state.user.userData);
 
-  // useEffect(() => {
-  //   dispatch(fetchCoins());
-  // }, []);
+  useEffect(() => {
+    dispatch(getUserPositions(user.id));
+  }, []);
+
+  const handleClick = (e) => {
+    dispatch(fetchChart(e.target.id));
+  };
+
+  const calculateMarketValue = (id, qty) => {
+    return coins.find((c) => c.id === id).current_price * qty;
+  };
 
   return (
     <React.Fragment>
@@ -57,25 +68,53 @@ const WalletList = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* {coins.map((coin, idx) => (
+          {positions.map((position, idx) => (
             <TableRow key={idx}>
-              <TableCell>{coin.market_cap_rank}</TableCell>
               <TableCell className={classes.coin}>
-                <img src={coin.image} className={classes.logo}></img>{" "}
-                {coin.name}
+                <img src={position.logo} className={classes.logo}></img>{" "}
+                {position.coin_name}
+                <IconButton id={position.coin_id} onClick={handleClick}>
+                  <ShowChartIcon id={position.coin_id} />
+                </IconButton>
               </TableCell>
-              <TableCell>{coin.symbol.toUpperCase()}</TableCell>
-              <TableCell>${coin.current_price.toFixed(2)}</TableCell>
+              <TableCell>{position.symbol.toUpperCase()}</TableCell>
+              <TableCell>{position.qty}</TableCell>
               <TableCell>
-                {coin.market_cap_change_percentage_24h.toFixed(2)}%
+                $
+                {parseFloat(position.cost).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </TableCell>
-              <TableCell>${coin.high_24h.toFixed(2)}</TableCell>
-              <TableCell>${coin.low_24h.toFixed(2)}</TableCell>
+              <TableCell>
+                $
+                {calculateMarketValue(
+                  position.coin_id,
+                  position.qty
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </TableCell>
+              <TableCell>
+                $
+                {(
+                  position.cost -
+                  calculateMarketValue(position.coin_id, position.qty)
+                ).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </TableCell>
               <TableCell align="right">
-                <TransactionForm qty_id={coin.id} />
+                <TransactionForm
+                  transaction_type={"Sell"}
+                  id={position.id}
+                  name={position.coin_name}
+                />
               </TableCell>
             </TableRow>
-          ))} */}
+          ))}
         </TableBody>
       </Table>
     </React.Fragment>
