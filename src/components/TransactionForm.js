@@ -6,14 +6,14 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useSelector, useDispatch } from "react-redux";
-import { buyCoin } from "../actions";
+import { buyCoin, sellCoin } from "../actions";
 
-const TransactionForm = ({ coin_id, coin_name }) => {
+const TransactionForm = ({ transaction_type, id, name }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.userData);
   const coins = useSelector((state) => state.market.coins);
-  console.log(coins);
+  // const positions = useSelector((state) => state.positions.positions);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,28 +25,53 @@ const TransactionForm = ({ coin_id, coin_name }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const coinData = coins.find((coin) => coin.id === e.target.qty.id);
 
-    dispatch(buyCoin(user, coinData, e.target.qty.value));
+    if (e.target.id === "Buy") {
+      const coinData = coins.find((coin) => coin.id === e.target.qty.id);
+
+      dispatch(buyCoin(user, coinData, e.target.qty.value));
+    }
+
+    if (e.target.id === "Sell") {
+      const positionData = user.positions.find(
+        (position) => position.id === parseInt(e.target.qty.id)
+      );
+      const currentCoinData = coins.find(
+        (coin) => coin.id === positionData.coin_id
+      );
+
+      dispatch(
+        sellCoin(
+          user,
+          currentCoinData,
+          positionData,
+          parseInt(e.target.qty.value)
+        )
+      );
+    }
+
+    setOpen(false);
   };
 
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Buy
+        {transaction_type}
       </Button>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <form onSubmit={handleSubmit}>
-          <DialogTitle id="form-dialog-title">Buy {coin_name}</DialogTitle>
+        <form id={transaction_type} onSubmit={handleSubmit}>
+          <DialogTitle id="form-dialog-title">
+            {transaction_type} {name}
+          </DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
               margin="dense"
-              id={coin_id}
+              id={id.toString()}
               name="qty"
               label="Enter Amount: "
               type="number"
@@ -58,7 +83,7 @@ const TransactionForm = ({ coin_id, coin_name }) => {
               Cancel
             </Button>
             <Button type="submit" color="primary">
-              Buy
+              {transaction_type}
             </Button>
           </DialogActions>
         </form>
