@@ -24,7 +24,7 @@ const tradesReducer = (state = initialState, action) => {
     case "SELL_COIN":
       return {
         ...state,
-        trades: action.payload,
+        trades: [...state.trades, action.payload],
       };
     default:
       return state;
