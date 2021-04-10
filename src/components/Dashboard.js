@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,12 +19,14 @@ import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Chart from "./Chart";
 import AccountInfo from "./AccountInfo";
 import MarketTable from "./MarketTable";
 import WalletTable from "./WalletTable";
 import Copyright from "./Copyright";
+import { fetchCoins } from "../actions";
 
 const drawerWidth = 240;
 
@@ -117,6 +120,14 @@ const Dashboard = () => {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const dispatch = useDispatch();
+  const coins = useSelector((state) => state.market.coins);
+  const user = useSelector((state) => state.user.userData);
+
+  useEffect(() => {
+    dispatch(fetchCoins());
+  }, []);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -146,10 +157,9 @@ const Dashboard = () => {
           >
             Dashboard
           </Typography>
+          <Typography color="inherit">{user.email}</Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+            <ExitToAppIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -184,19 +194,19 @@ const Dashboard = () => {
             {/* Account Info */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <AccountInfo />
+                <AccountInfo user={user} />
               </Paper>
             </Grid>
             {/* Wallet Table */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <WalletTable />
+                <WalletTable coins={coins} />
               </Paper>
             </Grid>
             {/* Market Table */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <MarketTable />
+                <MarketTable coins={coins} />
               </Paper>
             </Grid>
           </Grid>
