@@ -1,20 +1,17 @@
 import React, { useEffect } from "react";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import ShowChartIcon from "@material-ui/icons/ShowChart";
+import IconButton from "@material-ui/core/IconButton";
 import Title from "./Title";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCoins } from "../actions";
+import { fetchChart } from "../actions";
 import TransactionForm from "./TransactionForm";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -36,17 +33,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CoinsList = () => {
+const CoinsList = ({ coins }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const coins = useSelector((state) => state.market.coins);
-  const isLoading = useSelector((state) => state.market.loading);
+  const isMarketLoading = useSelector((state) => state.market.loading);
 
-  useEffect(() => {
-    dispatch(fetchCoins());
-  }, []);
+  const handleClick = (e) => {
+    dispatch(fetchChart(e.target.id));
+  };
 
-  if (isLoading) {
+  if (isMarketLoading) {
     return <CircularProgress disableShrink className={classes.loader} />;
   }
 
@@ -73,6 +69,9 @@ const CoinsList = () => {
               <TableCell className={classes.coin}>
                 <img src={coin.image} className={classes.logo}></img>{" "}
                 {coin.name}
+                <IconButton id={coin.id} onClick={handleClick}>
+                  <ShowChartIcon id={coin.id} />
+                </IconButton>
               </TableCell>
               <TableCell>{coin.symbol.toUpperCase()}</TableCell>
               <TableCell>
@@ -100,7 +99,11 @@ const CoinsList = () => {
                 })}
               </TableCell>
               <TableCell align="right">
-                <TransactionForm coin_id={coin.id} coin_name={coin.name} />
+                <TransactionForm
+                  transaction_type={"Buy"}
+                  id={coin.id}
+                  name={coin.name}
+                />
               </TableCell>
             </TableRow>
           ))}
