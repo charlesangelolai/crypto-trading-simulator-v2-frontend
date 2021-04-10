@@ -14,7 +14,6 @@ import Title from "./Title";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChart } from "../actions";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { FormHelperText } from "@material-ui/core";
 
 // Generate crypto chart data
 function createData(time, price) {
@@ -91,6 +90,7 @@ const Chart = () => {
           <CartesianGrid strokeDasharray="1 1" />
           <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
           <YAxis
+            type="number"
             domain={["auto", "auto"]}
             stroke={theme.palette.text.secondary}
           >
