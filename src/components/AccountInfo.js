@@ -10,22 +10,37 @@ function preventDefault(event) {
 }
 
 const useStyles = makeStyles({
-  depositContext: {
+  accountContext: {
     flex: 1,
   },
 });
 
-const AccountInfo = () => {
+const AccountInfo = ({ user }) => {
   const classes = useStyles();
-  const user = useSelector((state) => state.user.userData);
+
+  const calculateWalletValue = () => {
+    return user.positions.reduce(
+      (prevVal, currentVal) => {
+        return {
+          cost: parseFloat(prevVal.cost) + parseFloat(currentVal.cost),
+        };
+      },
+      { cost: 0.0 }
+    );
+  };
 
   return (
     <React.Fragment>
       <Title>Account Info</Title>
       <Typography component="p" variant="h5">
-        $0.00
+        $
+        {user.positions &&
+          calculateWalletValue().cost.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
       </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
+      <Typography color="textSecondary" className={classes.accountContext}>
         Wallet Value
       </Typography>
       <Typography component="p" variant="h5">
@@ -35,7 +50,7 @@ const AccountInfo = () => {
           maximumFractionDigits: 2,
         })}
       </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
+      <Typography color="textSecondary" className={classes.accountContext}>
         Buying Power
       </Typography>
       <div>
