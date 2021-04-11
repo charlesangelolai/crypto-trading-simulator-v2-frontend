@@ -5,6 +5,7 @@ import SignUp from "./components/SignUp";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import TransactionsTable from "./components/TransactionsTable";
+import Account from "./components/Account";
 
 const App = () => {
   const user = useSelector((state) => state.user.userData);
@@ -18,7 +19,7 @@ const App = () => {
               <Route exact path="/dashboard" component={Dashboard} />
               {/* <Route path="/news"></Route> */}
               <Route exact path="/transactions" component={TransactionsTable} />
-              {/* <Route path="/account" exact component={Account} /> */}
+              <Route path="/account" exact component={Account} />
             </Switch>
           </Layout>
         </Router>
