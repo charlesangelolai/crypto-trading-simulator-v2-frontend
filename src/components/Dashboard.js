@@ -1,32 +1,13 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
-import Container from "@material-ui/core/Container";
+import React from "react";
+import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { mainListItems, secondaryListItems } from "./listItems";
 import Chart from "./Chart";
 import AccountInfo from "./AccountInfo";
 import MarketTable from "./MarketTable";
 import WalletTable from "./WalletTable";
-import Copyright from "./Copyright";
-import { fetchCoins } from "../actions";
+import { makeStyles } from "@material-ui/core";
+import clsx from "clsx";
 
 const drawerWidth = 240;
 
@@ -111,111 +92,38 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const user = useSelector((state) => state.user.userData);
+  const coins = useSelector((state) => state.market.coins);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const dispatch = useDispatch();
-  const coins = useSelector((state) => state.market.coins);
-  const user = useSelector((state) => state.user.userData);
-
-  useEffect(() => {
-    dispatch(fetchCoins());
-  }, []);
-
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
-      >
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            Dashboard
-          </Typography>
-          <Typography color="inherit">{user.email}</Typography>
-          <IconButton color="inherit">
-            <ExitToAppIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItems}</List>
-        {/* <Divider />
-        <List>{secondaryListItems}</List> */}
-      </Drawer>
-      {/* Main */}
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Account Info */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <AccountInfo user={user} />
-              </Paper>
-            </Grid>
-            {/* Wallet Table */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <WalletTable coins={coins} />
-              </Paper>
-            </Grid>
-            {/* Market Table */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <MarketTable coins={coins} />
-              </Paper>
-            </Grid>
-          </Grid>
-          {/* Footer */}
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
+    <div>
+      <Grid container spacing={3}>
+        {/* Chart */}
+        <Grid item xs={12} md={8} lg={9}>
+          <Paper className={fixedHeightPaper}>
+            <Chart />
+          </Paper>
+        </Grid>
+        {/* Account Info */}
+        <Grid item xs={12} md={4} lg={3}>
+          <Paper className={fixedHeightPaper}>
+            <AccountInfo user={user} />
+          </Paper>
+        </Grid>
+        {/* Wallet Table */}
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <WalletTable coins={coins} />
+          </Paper>
+        </Grid>
+        {/* Market Table */}
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <MarketTable coins={coins} />
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 };
