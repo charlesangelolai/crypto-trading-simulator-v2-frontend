@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import MaterialLink from "@material-ui/core/Link";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -79,7 +80,9 @@ export default function SignIn() {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link to="/signup">{"Don't have an account? Sign Up"}</Link>
+              <MaterialLink variant="body2" component={Link} to="/signup">
+                {"Don't have an account? Sign Up"}
+              </MaterialLink>
             </Grid>
           </Grid>
         </form>

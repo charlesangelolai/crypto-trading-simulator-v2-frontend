@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import MaterialLink from "@material-ui/core/Link";
 import { useDispatch } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -38,11 +39,13 @@ const SignUp = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
 
-  const { email, password } = formData;
+  const { firstName, lastName, email, password } = formData;
 
   const handleChange = (e) => {
     setFormData({
@@ -68,6 +71,32 @@ const SignUp = () => {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                value={firstName}
+                onChange={(e) => handleChange(e)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+                value={lastName}
+                onChange={(e) => handleChange(e)}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -107,7 +136,9 @@ const SignUp = () => {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link to="/signin">Already have an account? Sign in</Link>
+              <MaterialLink variant="body2" component={Link} to="/signin">
+                Already have an account? Sign in
+              </MaterialLink>
             </Grid>
           </Grid>
         </form>
