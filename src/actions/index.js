@@ -32,6 +32,36 @@ export const signUp = ({ firstName, lastName, email, password }) => {
   };
 };
 
+export const updateUser = ({ id, firstName, lastName, email }) => {
+  const userParams = {
+    user: {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+    },
+  };
+
+  debugger;
+  return async (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const body = JSON.stringify(userParams);
+    try {
+      const resp = await axios.patch(`/users/${id}`, body, config);
+
+      dispatch({
+        type: "UPDATE_USER",
+        payload: resp.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 // Chart Actions
 export const fetchChart = (coinID = "bitcoin") => {
   return async (dispatch) => {
@@ -131,7 +161,6 @@ export const sellCoin = (user, coin, position, qty) => {
 
     try {
       const tradeResp = await axios.post("/trades", tradeBody, config);
-      console.log(tradeResp.data);
 
       dispatch({
         type: "BUY_COIN",
@@ -166,7 +195,6 @@ export const sellCoin = (user, coin, position, qty) => {
       }
 
       const userResp = await axios.patch(`/users/${user.id}`, userBody, config);
-      console.log(userResp.data);
 
       dispatch({
         type: "UPDATE_USER",
