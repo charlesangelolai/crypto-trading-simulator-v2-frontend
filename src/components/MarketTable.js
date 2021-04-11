@@ -9,9 +9,10 @@ import ShowChartIcon from "@material-ui/icons/ShowChart";
 import IconButton from "@material-ui/core/IconButton";
 import Title from "./Title";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchChart } from "../actions";
+import { fetchChart, fetchCoins } from "../actions";
 import TransactionForm from "./TransactionForm";
 import CircularProgress from "@material-ui/core/CircularProgress";
+// import Pagination from "@material-ui/lab/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -33,14 +34,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CoinsList = ({ coins }) => {
+const MarketList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const isMarketLoading = useSelector((state) => state.market.loading);
+  const coins = useSelector((state) => state.market.coins);
 
   const handleClick = (e) => {
     dispatch(fetchChart(e.target.id));
   };
+
+  useEffect(() => {
+    dispatch(fetchCoins());
+  }, []);
 
   if (isMarketLoading) {
     return <CircularProgress disableShrink className={classes.loader} />;
@@ -109,8 +115,9 @@ const CoinsList = ({ coins }) => {
           ))}
         </TableBody>
       </Table>
+      {/* <Pagination count={10} /> */}
     </React.Fragment>
   );
 };
 
-export default CoinsList;
+export default MarketList;
