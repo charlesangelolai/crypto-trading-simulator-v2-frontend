@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -11,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Title from "./Title";
+import { updateUser } from "../actions";
 
 const useStyles = makeStyles({
   saveBtn: {
@@ -22,22 +24,29 @@ const useStyles = makeStyles({
 
 const AccountProfile = ({ user }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
+    id: user.id,
     firstName: user.first_name,
     lastName: user.last_name,
     email: user.email,
   });
 
-  const handleChange = (event) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [event.target.name]: event.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateUser(formData));
+  };
+
   return (
-    <form autoComplete="off" noValidate {...user}>
+    <form autoComplete="off" noValidate onSubmit={handleSubmit}>
       <Card>
         <Title>
           <CardHeader
@@ -78,7 +87,7 @@ const AccountProfile = ({ user }) => {
                 name="email"
                 onChange={handleChange}
                 required
-                value={user.email}
+                value={formData.email}
                 variant="outlined"
               />
             </Grid>
@@ -86,7 +95,7 @@ const AccountProfile = ({ user }) => {
         </CardContent>
         <Divider />
         <Box className={classes.saveBtn}>
-          <Button color="primary" variant="contained">
+          <Button type="submit" color="primary" variant="contained">
             Save details
           </Button>
         </Box>
