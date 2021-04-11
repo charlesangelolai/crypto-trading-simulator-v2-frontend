@@ -15,12 +15,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchChart } from "../actions";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-// Generate crypto chart data
+// create coin chart data
 function createData(time, price) {
   return { time, price };
 }
 
-// Convert timestamp to date
+// format timestamp to date
 function convertTimeStamp(timestamp) {
   return Intl.DateTimeFormat("en-US", {
     year: "numeric",
@@ -74,7 +74,7 @@ const Chart = () => {
       <Title>
         <div className={classes.title}>
           <img src={coin.image} className={classes.logo} />
-          {coin.name}
+          {coin.name} ({coin.symbol.toUpperCase()})
         </div>
       </Title>
       <ResponsiveContainer>
