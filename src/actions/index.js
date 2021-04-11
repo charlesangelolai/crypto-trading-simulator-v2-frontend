@@ -1,14 +1,24 @@
 import axios from "axios";
 
 // User Actions
-export const signUp = (formData) => {
+export const signUp = ({ firstName, lastName, email, password }) => {
+  const userParams = {
+    user: {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: password,
+    },
+  };
+
+  debugger;
   return async (dispatch) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    const body = JSON.stringify(formData);
+    const body = JSON.stringify(userParams);
     try {
       const resp = await axios.post("/users", body, config);
 
