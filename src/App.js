@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import TransactionsTable from "./components/TransactionsTable";
 import Account from "./components/Account";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   const user = useSelector((state) => state.user.userData);
@@ -20,6 +21,7 @@ const App = () => {
               {/* <Route path="/news"></Route> */}
               <Route exact path="/transactions" component={TransactionsTable} />
               <Route path="/account" exact component={Account} />
+              <Route component={NotFound} />
             </Switch>
           </Layout>
         </Router>
@@ -32,6 +34,7 @@ const App = () => {
           <Switch>
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/signup" component={SignUp} />
+            <Route component={NotFound} />
           </Switch>
         </div>
       </Router>
