@@ -112,15 +112,16 @@ export const getUserPositions = (userID) => {
 
 export const sellCoin = (user, coin, position, qty) => {
   // check for max qty
-  qty = position.qty - qty > 0 ? position.qty - qty : qty + position.qty - qty;
+  qty = position.qty - qty > 0 ? qty : qty + (position.qty - qty);
   // calculate price per coin
-  let pricePerCoin = parseFloat(position.cost) / position.qty;
-  // calculate new cost
-  let cost = position.cost - pricePerCoin * qty;
+  // let pricePerCoin = parseFloat(position.cost) / position.qty;
+  // calculate return
+  let cost = coin.current_price * qty;
   // calculate new qty
   let newQty = position.qty - qty;
   // calculate new user balance
   let newBalance = parseFloat(user.balance) + coin.current_price * qty;
+  debugger;
 
   let tradeParams = {
     trade: {
@@ -147,6 +148,7 @@ export const sellCoin = (user, coin, position, qty) => {
       balance: newBalance,
     },
   };
+  debugger;
 
   return async (dispatch) => {
     const config = {
@@ -179,6 +181,7 @@ export const sellCoin = (user, coin, position, qty) => {
             (position) => position.id !== positionResp.data.id
           )
         );
+        debugger;
 
         dispatch({
           type: "PATCH_POSITIONS",
