@@ -32,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     display: "flex",
   },
+  red: {
+    color: "red",
+  },
+  green: {
+    color: "green",
+  },
 }));
 
 const WalletList = ({ coins }) => {
@@ -97,14 +103,24 @@ const WalletList = ({ coins }) => {
                 })}
               </TableCell>
               <TableCell>
-                $
-                {(
-                  position.cost -
-                  calculateMarketValue(position.coin_id, position.qty)
-                ).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+                <span
+                  className={
+                    calculateMarketValue(position.coin_id, position.qty) -
+                      position.cost >
+                    0.0
+                      ? classes.green
+                      : classes.red
+                  }
+                >
+                  $
+                  {(
+                    calculateMarketValue(position.coin_id, position.qty) -
+                    position.cost
+                  ).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
               </TableCell>
               <TableCell align="right">
                 <TransactionForm

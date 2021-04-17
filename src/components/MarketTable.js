@@ -32,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     display: "flex",
   },
+  red: {
+    color: "red",
+  },
+  green: {
+    color: "green",
+  },
 }));
 
 const MarketList = () => {
@@ -62,7 +68,7 @@ const MarketList = () => {
             <TableCell>Coin</TableCell>
             <TableCell>Symbol</TableCell>
             <TableCell>Price</TableCell>
-            <TableCell>Change (1h)</TableCell>
+            <TableCell>Change (24h)</TableCell>
             <TableCell>High (24h)</TableCell>
             <TableCell>Low (24h)</TableCell>
             <TableCell align="right">Action</TableCell>
@@ -88,7 +94,15 @@ const MarketList = () => {
                 })}
               </TableCell>
               <TableCell>
-                {coin.market_cap_change_percentage_24h.toFixed(2)}%
+                <span
+                  className={
+                    coin.market_cap_change_percentage_24h > 0.0
+                      ? classes.green
+                      : classes.red
+                  }
+                >
+                  {coin.market_cap_change_percentage_24h.toFixed(2)}%
+                </span>
               </TableCell>
               <TableCell>
                 $
