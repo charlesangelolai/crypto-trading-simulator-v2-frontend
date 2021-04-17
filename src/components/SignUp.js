@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Copyright from "./Copyright";
 import { signUp } from "../actions";
+import history from "../history";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -56,7 +57,7 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signUp(formData));
+    dispatch(signUp(formData, history));
   };
 
   return (
