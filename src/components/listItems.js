@@ -17,12 +17,12 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+    {/* <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="News" />
-    </ListItem>
+    </ListItem> */}
     <ListItem button component={Link} to="/transactions">
       <ListItemIcon>
         <HistoryIcon />

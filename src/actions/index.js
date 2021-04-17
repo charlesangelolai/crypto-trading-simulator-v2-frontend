@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // User Actions
-export const signUp = ({ firstName, lastName, email, password }) => {
+export const signUp = ({ firstName, lastName, email, password }, history) => {
   const userParams = {
     user: {
       first_name: firstName,
@@ -11,7 +11,6 @@ export const signUp = ({ firstName, lastName, email, password }) => {
     },
   };
 
-  debugger;
   return async (dispatch) => {
     const config = {
       headers: {
@@ -26,6 +25,8 @@ export const signUp = ({ firstName, lastName, email, password }) => {
         type: "SIGN_UP",
         payload: resp.data,
       });
+
+      // history.push("/");
     } catch (err) {
       console.log(err);
     }
@@ -113,14 +114,12 @@ export const getUserPositions = (userID) => {
 export const sellCoin = (user, coin, position, qty) => {
   // check for max qty
   qty = position.qty - qty > 0 ? qty : qty + (position.qty - qty);
-  // calculate price per coin
-  // let pricePerCoin = parseFloat(position.cost) / position.qty;
   // calculate return
   let cost = coin.current_price * qty;
   // calculate new qty
   let newQty = position.qty - qty;
   // calculate new user balance
-  let newBalance = parseFloat(user.balance) + coin.current_price * qty;
+  let newBalance = parseFloat(user.balance) + cost;
   debugger;
 
   let tradeParams = {

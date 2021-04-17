@@ -57,7 +57,7 @@ const Chart = () => {
   const chartData = useSelector((state) => state.chart.chartData);
   const isLoading = useSelector((state) => state.chart.loading);
 
-  const formatChartData = chartData.map((data, idx) =>
+  const formatChartData = chartData.map((data) =>
     createData(convertTimeStamp(data[0]), data[1].toFixed(2))
   );
 
