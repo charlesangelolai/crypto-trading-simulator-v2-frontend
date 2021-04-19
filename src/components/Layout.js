@@ -1,27 +1,23 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import Container from "@material-ui/core/Container";
+import {
+  makeStyles,
+  CssBaseline,
+  Drawer,
+  Box,
+  AppBar,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  IconButton,
+  Container,
+} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { mainListItems } from "./listItems";
 import Copyright from "./Copyright";
-import { fetchCoins } from "../actions";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useHistory } from "react-router";
-import Dashboard from "./Dashboard";
-import TransactionsTable from "./TransactionsTable";
 
 const drawerWidth = 240;
 
@@ -106,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout = ({ user, children }) => {
   const classes = useStyles();
-  const history = useHistory();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -115,14 +110,6 @@ const Layout = ({ user, children }) => {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-  // const dispatch = useDispatch();
-  // const coins = useSelector((state) => state.market.coins);
-  // const user = useSelector((state) => state.user.userData);
-
-  // useEffect(() => {
-  //   dispatch(fetchCoins());
-  // }, []);
 
   return (
     <div className={classes.root}>

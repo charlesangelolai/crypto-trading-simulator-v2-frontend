@@ -1,13 +1,10 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import { makeStyles, Grid, Paper } from "@material-ui/core";
+import clsx from "clsx";
 import Chart from "./Chart";
 import AccountInfo from "./AccountInfo";
-import MarketTable from "./MarketTable";
 import WalletTable from "./WalletTable";
-import { makeStyles } from "@material-ui/core";
-import clsx from "clsx";
+import MarketTable from "./MarketTable";
 
 const drawerWidth = 240;
 

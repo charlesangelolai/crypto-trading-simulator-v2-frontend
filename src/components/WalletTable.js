@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
-import Link from "@material-ui/core/Link";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import ShowChartIcon from "@material-ui/icons/ShowChart";
-import IconButton from "@material-ui/core/IconButton";
-import Title from "./Title";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchChart, getUserPositions } from "../actions";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  IconButton,
+} from "@material-ui/core";
+import ShowChartIcon from "@material-ui/icons/ShowChart";
+import Title from "./Title";
 import TransactionForm from "./TransactionForm";
-
-function preventDefault(event) {
-  event.preventDefault();
-}
+import { fetchChart, getUserPositions } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {

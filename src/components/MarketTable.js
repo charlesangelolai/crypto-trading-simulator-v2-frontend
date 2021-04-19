@@ -1,18 +1,19 @@
-import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import ShowChartIcon from "@material-ui/icons/ShowChart";
-import IconButton from "@material-ui/core/IconButton";
-import Title from "./Title";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchChart, fetchCoins } from "../actions";
+import {
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  CircularProgress,
+  IconButton,
+} from "@material-ui/core";
+import ShowChartIcon from "@material-ui/icons/ShowChart";
+import Title from "./Title";
 import TransactionForm from "./TransactionForm";
-import CircularProgress from "@material-ui/core/CircularProgress";
-// import Pagination from "@material-ui/lab/Pagination";
+import { fetchChart, fetchCoins } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -39,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
     color: "green",
   },
 }));
+
+// const CounterButton = () => {
+//   const [count, setCount] = useState(0);
+//   return <Button onClick={() => setCount(count + 1)}>{count}</Button>;
+// };
 
 const MarketList = () => {
   const classes = useStyles();
@@ -124,12 +130,12 @@ const MarketList = () => {
                   id={coin.id}
                   name={coin.name}
                 />
+                {/* <CounterButton /> */}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      {/* <Pagination count={10} /> */}
     </React.Fragment>
   );
 };

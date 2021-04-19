@@ -1,12 +1,10 @@
 import React from "react";
-import Link from "@material-ui/core/Link";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { makeStyles, Typography, Link } from "@material-ui/core";
 import Title from "./Title";
 
-function preventDefault(event) {
-  event.preventDefault();
-}
+// function preventDefault(event) {
+//   event.preventDefault();
+// }
 
 const useStyles = makeStyles({
   accountContext: {
@@ -52,7 +50,7 @@ const AccountInfo = ({ user }) => {
       <Typography color="textSecondary" className={classes.accountContext}>
         Buying Power
       </Typography>
-      <div>
+      {/* <div>
         <Link color="primary" href="#" onClick={preventDefault}>
           Withdraw
         </Link>
@@ -60,7 +58,7 @@ const AccountInfo = ({ user }) => {
         <Link color="primary" href="#" onClick={preventDefault}>
           Deposit
         </Link>
-      </div>
+      </div> */}
     </React.Fragment>
   );
 };

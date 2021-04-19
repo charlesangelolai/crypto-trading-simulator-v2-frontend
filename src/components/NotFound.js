@@ -10,14 +10,10 @@ const useStyles = makeStyles((theme) => ({
   box: {
     backgroundColor: "background.default",
     display: "flex",
-    // flexDirection: "column",
     height: "100%",
     justifyContent: "center",
-    // textAlign: "center",
   },
   img: {
-    // marginTop: 50,
-    // display: "inline-block",
     maxWidth: "100%",
     width: 560,
   },

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { useTheme, makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { useTheme, makeStyles, CircularProgress } from "@material-ui/core";
 import {
   LineChart,
   Line,
@@ -11,9 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Title from "./Title";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchChart } from "../actions";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 // create coin chart data
 function createData(time, price) {

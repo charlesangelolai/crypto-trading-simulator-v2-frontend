@@ -1,10 +1,8 @@
-import { Box, Container, Grid } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import { makeStyles, Box, Container, Grid, Paper } from "@material-ui/core";
+import clsx from "clsx";
 import AccountInfo from "./AccountInfo";
 import AccountProfile from "./AccountProfile";
-import Paper from "@material-ui/core/Paper";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core";
-import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {

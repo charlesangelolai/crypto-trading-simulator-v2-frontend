@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
+  makeStyles,
   Box,
   Button,
   Card,
@@ -10,7 +11,6 @@ import {
   Grid,
   TextField,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import Title from "./Title";
 import { updateUser } from "../actions";
 
