@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // User Actions
-export const signUp = ({ firstName, lastName, email, password }, history) => {
+export const signUp = ({ firstName, lastName, email, password }) => {
   const userParams = {
     user: {
       first_name: firstName,
