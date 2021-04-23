@@ -22,11 +22,33 @@ export const signUp = ({ firstName, lastName, email, password }) => {
       const resp = await axios.post("/users", body, config);
 
       dispatch({
-        type: "SIGN_UP",
+        type: "SET_USER",
         payload: resp.data,
       });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 
-      // history.push("/");
+export const signIn = ({ email, password }) => {
+  const userParams = {
+    user: {
+      email: email,
+      password: password,
+    },
+  };
+
+  return async (dispatch) => {
+    try {
+      const resp = await axios.post("/login", userParams, {
+        withCredentials: true,
+      });
+
+      dispatch({
+        type: "SET_USER",
+        payload: resp.data,
+      });
     } catch (err) {
       console.log(err);
     }
