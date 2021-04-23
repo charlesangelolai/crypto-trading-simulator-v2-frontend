@@ -23,7 +23,7 @@ const App = () => {
         <Router history={history}>
           <Layout user={user}>
             <Switch>
-              <Route exact path="/signup">
+              <Route path={["/signin", "signup"]}>
                 <Redirect to="/dashboard" />
               </Route>
               <Route exact path="/dashboard" component={Dashboard} />
