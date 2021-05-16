@@ -53,22 +53,21 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  box: {
+    backgroundColor: "background.default",
+    minHeight: "100%",
+    py: 3,
+  },
 }));
 
 const Account = () => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  const user = useSelector((state) => state.user.userData);
+  const user = useSelector((state: any) => state.user.userData);
 
   return (
     <div>
-      <Box
-        sx={{
-          backgroundColor: "background.default",
-          minHeight: "100%",
-          py: 3,
-        }}
-      >
+      <Box className={classes.box}>
         <Container maxWidth="lg">
           <Grid container spacing={3}>
             <Grid item lg={4} md={6} xs={12}>
