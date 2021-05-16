@@ -12,7 +12,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import Title from "./Title";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserTrades } from "../actions";
+// import { getUserTrades } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 const TransactionsList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const trades = useSelector((state) => state.trades.trades);
+  const trades = useSelector((state: any) => state.trades.trades);
   const [search, setSearch] = useState("");
 
   // useEffect(() => {
@@ -125,7 +125,7 @@ const TransactionsList = () => {
         </TableHead>
         <TableBody>
           {trades
-            .filter((val) => {
+            .filter((val: any) => {
               if (search === "") {
                 return val;
               } else if (
@@ -134,7 +134,7 @@ const TransactionsList = () => {
                 return val;
               }
             })
-            .map((trade, idx) => (
+            .map((trade: any, idx: number) => (
               <TableRow key={idx}>
                 <TableCell className={classes.coin}>
                   <img src={trade.logo} className={classes.logo}></img>{" "}
