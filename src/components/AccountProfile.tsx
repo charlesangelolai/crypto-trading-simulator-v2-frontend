@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-const AccountProfile = ({ user }) => {
+const AccountProfile = ({ user }: { user: any }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -33,14 +33,14 @@ const AccountProfile = ({ user }) => {
     email: user.email,
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     dispatch(updateUser(formData));
   };
