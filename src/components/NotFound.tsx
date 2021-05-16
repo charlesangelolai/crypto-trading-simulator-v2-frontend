@@ -26,7 +26,7 @@ const NotFound = () => {
     <div>
       <Grid
         container
-        spacing
+        // spacing
         direction="column"
         alignItems="center"
         justify="center"
@@ -34,12 +34,7 @@ const NotFound = () => {
       >
         <Box className={classes.box}>
           <Container maxWidth="md">
-            <Typography
-              align="center"
-              color="textPrimary"
-              variant="h4"
-              className={classes.header}
-            >
+            <Typography align="center" color="textPrimary" variant="h4">
               404: The page you are looking for isn’t here
             </Typography>
             <Typography align="center" color="textPrimary" variant="subtitle2">
