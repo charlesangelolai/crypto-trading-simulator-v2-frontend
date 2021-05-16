@@ -80,6 +80,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(0.5),
     marginRight: theme.spacing(1),
   },
+  loader: {
+    margin: "auto",
+    display: "flex",
+    position: "relative",
+    justiftContent: "center",
+  },
   coin: {
     alignItems: "center",
     display: "flex",
@@ -92,24 +98,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WalletList = ({ coins }) => {
+const WalletList = ({ coins }: { coins: any }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const positions = useSelector((state) => state.positions.positions);
-  const user = useSelector((state) => state.user.userData);
-  const isLoading = useSelector((state) => state.market.isLoading);
+  const positions = useSelector((state: any) => state.positions.positions);
+  const user = useSelector((state: any) => state.user.userData);
+  const isLoading = useSelector((state: any) => state.market.isLoading);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     dispatch(getUserPositions(user.id));
   }, []);
 
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     dispatch(fetchChart(e.target.id));
   };
 
-  const calculateMarketValue = (id, qty) => {
-    return coins.find((c) => c.id === id).current_price * qty;
+  const calculateMarketValue = (id: number, qty: any) => {
+    return coins.find((c: any): any => c.id === id).current_price * qty;
   };
 
   if (isLoading) {
@@ -150,7 +156,7 @@ const WalletList = ({ coins }) => {
           </TableHead>
           <TableBody>
             {positions
-              .filter((val) => {
+              .filter((val: any) => {
                 if (search === "") {
                   return val;
                 } else if (
@@ -159,7 +165,7 @@ const WalletList = ({ coins }) => {
                   return val;
                 }
               })
-              .map((position, idx) => (
+              .map((position: any, idx: number) => (
                 <TableRow key={idx}>
                   <TableCell className={classes.coin}>
                     <img src={position.logo} className={classes.logo}></img>{" "}
