@@ -10,11 +10,19 @@ import {
 } from "@material-ui/core";
 import { buyCoin, sellCoin } from "../actions";
 
-const TransactionForm = ({ transaction_type, id, name }) => {
+const TransactionForm = ({
+  transaction_type,
+  id,
+  name,
+}: {
+  transaction_type: string;
+  id: number;
+  name: string;
+}) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.userData);
-  const coins = useSelector((state) => state.market.coins);
+  const user = useSelector((state: any) => state.user.userData);
+  const coins = useSelector((state: any) => state.market.coins);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,21 +32,21 @@ const TransactionForm = ({ transaction_type, id, name }) => {
     setOpen(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
     if (e.target.id === "Buy") {
-      const coinData = coins.find((coin) => coin.id === e.target.qty.id);
+      const coinData = coins.find((coin: any) => coin.id === e.target.qty.id);
 
       dispatch(buyCoin(user, coinData, e.target.qty.value));
     }
 
     if (e.target.id === "Sell") {
       const positionData = user.positions.find(
-        (position) => position.id === parseInt(e.target.qty.id)
+        (position: any) => position.id === parseInt(e.target.qty.id)
       );
       const currentCoinData = coins.find(
-        (coin) => coin.id === positionData.coin_id
+        (coin: any) => coin.id === positionData.coin_id
       );
 
       dispatch(
