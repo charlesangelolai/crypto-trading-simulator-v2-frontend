@@ -15,12 +15,12 @@ import Title from "./Title";
 import { fetchChart } from "../actions";
 
 // create coin chart data
-function createData(time, price) {
+function createData(time: any, price: any) {
   return { time, price };
 }
 
 // format timestamp to date
-function convertTimeStamp(timestamp) {
+function convertTimeStamp(timestamp: any) {
   return Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "2-digit",
@@ -52,11 +52,11 @@ const Chart = () => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const coin = useSelector((state) => state.chart.coin);
-  const chartData = useSelector((state) => state.chart.chartData);
-  const isLoading = useSelector((state) => state.chart.loading);
+  const coin = useSelector((state: any) => state.chart.coin);
+  const chartData = useSelector((state: any) => state.chart.chartData);
+  const isLoading = useSelector((state: any) => state.chart.loading);
 
-  const formatChartData = chartData.map((data) =>
+  const formatChartData = chartData.map((data: any) =>
     createData(convertTimeStamp(data[0]), data[1].toFixed(2))
   );
 
