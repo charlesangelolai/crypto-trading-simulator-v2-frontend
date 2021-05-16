@@ -98,11 +98,11 @@ const useStyles = makeStyles((theme) => ({
 const MarketList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const isMarketLoading = useSelector((state) => state.market.loading);
-  const coins = useSelector((state) => state.market.coins);
+  const isMarketLoading = useSelector((state: any) => state.market.loading);
+  const coins = useSelector((state: any) => state.market.coins);
   const [search, setSearch] = useState("");
 
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     dispatch(fetchChart(e.target.id));
   };
 
@@ -151,7 +151,7 @@ const MarketList = () => {
         </TableHead>
         <TableBody>
           {coins
-            .filter((val) => {
+            .filter((val: any) => {
               if (search === "") {
                 return val;
               } else if (
@@ -160,7 +160,7 @@ const MarketList = () => {
                 return val;
               }
             })
-            .map((coin, idx) => (
+            .map((coin: any, idx: any) => (
               <TableRow key={idx}>
                 <TableCell>{coin.market_cap_rank}</TableCell>
                 <TableCell className={classes.coin}>
