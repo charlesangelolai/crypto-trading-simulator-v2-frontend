@@ -12,12 +12,12 @@ const useStyles = makeStyles({
   },
 });
 
-const AccountInfo = ({ user }) => {
+const AccountInfo = ({ user }: { user: any }) => {
   const classes = useStyles();
 
   const calculateWalletValue = () => {
     return user.positions.reduce(
-      (prevVal, currentVal) => {
+      (prevVal: any, currentVal: any) => {
         return {
           cost: parseFloat(prevVal.cost) + parseFloat(currentVal.cost),
         };
