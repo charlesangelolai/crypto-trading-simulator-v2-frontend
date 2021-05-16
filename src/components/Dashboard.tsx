@@ -89,8 +89,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
-  const user = useSelector((state) => state.user.userData);
-  const coins = useSelector((state) => state.market.coins);
+  const user = useSelector((state: any) => state.user.userData);
+  const coins = useSelector((state: any) => state.market.coins);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -117,7 +117,7 @@ const Dashboard = () => {
         {/* Market Table */}
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <MarketTable coins={coins} />
+            <MarketTable />
           </Paper>
         </Grid>
       </Grid>
