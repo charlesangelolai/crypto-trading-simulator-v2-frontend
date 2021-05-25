@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import clsx from "clsx";
 import {
   makeStyles,
@@ -18,6 +18,42 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { mainListItems } from "./listItems";
 import Copyright from "./Copyright";
+
+interface IUser {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  balance: string | number;
+  positions: IPosition;
+  trades: ITrade;
+}
+
+interface IPosition {
+  id: number;
+  coin_id: string;
+  coin_name: string;
+  logo: string;
+  symbol: string;
+  qty: number;
+  cost: string | number;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+interface ITrade {
+  id: number;
+  coin_id: string;
+  coin_name: string;
+  transaction_type: string;
+  logo: string;
+  symbol: string;
+  qty: number;
+  cost: string | number;
+  user_id: number;
+  user: IUser;
+}
 
 const drawerWidth = 240;
 
@@ -100,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Layout = ({ user, children }: { user: any; children: any }) => {
+const Layout = ({ user, children }: { user: IUser; children: ReactNode }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -109,7 +145,6 @@ const Layout = ({ user, children }: { user: any; children: any }) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
