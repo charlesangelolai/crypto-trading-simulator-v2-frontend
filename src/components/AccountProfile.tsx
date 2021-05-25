@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   makeStyles,
@@ -33,14 +33,14 @@ const AccountProfile = ({ user }: { user: any }) => {
     email: user.email,
   });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     dispatch(updateUser(formData));
   };

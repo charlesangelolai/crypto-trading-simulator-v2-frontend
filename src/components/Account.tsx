@@ -3,6 +3,7 @@ import { makeStyles, Box, Container, Grid, Paper } from "@material-ui/core";
 import clsx from "clsx";
 import AccountInfo from "./AccountInfo";
 import AccountProfile from "./AccountProfile";
+import { RootState } from "../reducers/combineReducer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 const Account = () => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  const user = useSelector((state: any) => state.user.userData);
+  const user = useSelector((state: RootState) => state.user.userData);
 
   return (
     <div>

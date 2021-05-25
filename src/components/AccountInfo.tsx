@@ -2,6 +2,42 @@ import React from "react";
 import { makeStyles, Typography, Link } from "@material-ui/core";
 import Title from "./Title";
 
+// interface IUser {
+//   id: number;
+//   first_name: string;
+//   last_name: string;
+//   email: string;
+//   balance: string | number;
+//   positions: IPosition[];
+//   trades: ITrade[];
+// }
+
+// interface IPosition {
+//   id: number;
+//   coin_id: string;
+//   coin_name: string;
+//   logo: string;
+//   symbol: string;
+//   qty: number;
+//   cost: string | number;
+//   user_id: number;
+//   created_at: string;
+//   updated_at: string;
+// }
+
+// interface ITrade {
+//   id: number;
+//   coin_id: string;
+//   coin_name: string;
+//   transaction_type: string;
+//   logo: string;
+//   symbol: string;
+//   qty: number;
+//   cost: string | number;
+//   user_id: number;
+//   user: IUser;
+// }
+
 // function preventDefault(event) {
 //   event.preventDefault();
 // }
