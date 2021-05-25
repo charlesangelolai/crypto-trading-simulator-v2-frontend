@@ -17,6 +17,49 @@ import ShowChartIcon from "@material-ui/icons/ShowChart";
 import Title from "./Title";
 import TransactionForm from "./TransactionForm";
 import { fetchChart, getUserPositions } from "../actions";
+import { RootState } from "../reducers/combineReducer";
+
+// interface ICoin {
+//   id: string;
+//   symbol: string;
+//   name: string;
+//   image: string;
+//   current_price: number;
+//   market_cap: number;
+//   market_cap_rank: number;
+//   fully_diluted_valuation: number;
+//   total_volume: number;
+//   high_24h: number;
+//   low_24h: number;
+//   price_change_24h: number;
+//   price_change_percentage_24h: number;
+//   market_cap_change_24h: number;
+//   market_cap_change_percentage_24h: number;
+//   circulating_supply: number;
+//   total_supply: number;
+//   max_supply: number;
+//   ath: number;
+//   ath_change_percentage: number;
+//   ath_date: string;
+//   atl: number;
+//   atl_change_percentage: number;
+//   atl_date: string;
+//   roi: any;
+//   last_updated: string;
+// }
+
+interface IPosition {
+  id: number;
+  coin_id: string;
+  coin_name: string;
+  logo: string;
+  symbol: string;
+  qty: number;
+  cost: string | number;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,14 +144,16 @@ const useStyles = makeStyles((theme) => ({
 const WalletList = ({ coins }: { coins: any }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const positions = useSelector((state: any) => state.positions.positions);
-  const user = useSelector((state: any) => state.user.userData);
-  const isLoading = useSelector((state: any) => state.market.isLoading);
+  const positions = useSelector(
+    (state: RootState) => state.positions.positions
+  );
+  const user = useSelector((state: RootState) => state.user.userData);
+  const isLoading = useSelector((state: RootState) => state.market.loading);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     dispatch(getUserPositions(user.id));
-  }, []);
+  }, [dispatch, user.id]);
 
   const handleClick = (e: any) => {
     dispatch(fetchChart(e.target.id));
@@ -156,7 +201,7 @@ const WalletList = ({ coins }: { coins: any }) => {
           </TableHead>
           <TableBody>
             {positions
-              .filter((val: any) => {
+              .filter((val: IPosition) => {
                 if (search === "") {
                   return val;
                 } else if (
@@ -168,7 +213,11 @@ const WalletList = ({ coins }: { coins: any }) => {
               .map((position: any, idx: number) => (
                 <TableRow key={idx}>
                   <TableCell className={classes.coin}>
-                    <img src={position.logo} className={classes.logo}></img>{" "}
+                    <img
+                      src={position.logo}
+                      className={classes.logo}
+                      alt={position.coin_id}
+                    ></img>{" "}
                     {position.coin_name}
                     <IconButton id={position.coin_id} onClick={handleClick}>
                       <ShowChartIcon id={position.coin_id} />
