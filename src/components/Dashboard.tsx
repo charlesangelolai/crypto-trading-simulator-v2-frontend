@@ -5,6 +5,7 @@ import Chart from "./Chart";
 import AccountInfo from "./AccountInfo";
 import WalletTable from "./WalletTable";
 import MarketTable from "./MarketTable";
+import { RootState } from "../reducers/combineReducer";
 
 const drawerWidth = 240;
 
@@ -89,8 +90,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
-  const user = useSelector((state: any) => state.user.userData);
-  const coins = useSelector((state: any) => state.market.coins);
+  const user = useSelector((state: RootState) => state.user.userData);
+  const coins = useSelector((state: RootState) => state.market.coins);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
