@@ -13,9 +13,10 @@ import {
 } from "recharts";
 import Title from "./Title";
 import { fetchChart } from "../actions";
+import { RootState } from "../reducers/combineReducer";
 
 // create coin chart data
-function createData(time: any, price: any) {
+function createData(time: string, price: string) {
   return { time, price };
 }
 
@@ -52,9 +53,9 @@ const Chart = () => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const coin = useSelector((state: any) => state.chart.coin);
-  const chartData = useSelector((state: any) => state.chart.chartData);
-  const isLoading = useSelector((state: any) => state.chart.loading);
+  const coin = useSelector((state: RootState) => state.chart.coin);
+  const chartData = useSelector((state: RootState) => state.chart.chartData);
+  const isLoading = useSelector((state: RootState) => state.chart.loading);
 
   const formatChartData = chartData.map((data: any) =>
     createData(convertTimeStamp(data[0]), data[1].toFixed(2))
@@ -62,7 +63,7 @@ const Chart = () => {
 
   useEffect(() => {
     dispatch(fetchChart());
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return <CircularProgress disableShrink className={classes.loader} />;
@@ -72,7 +73,7 @@ const Chart = () => {
     <React.Fragment>
       <Title>
         <div className={classes.title}>
-          <img src={coin.image} className={classes.logo} />
+          <img src={coin.image} className={classes.logo} alt={coin.name} />
           {coin.name} ({coin.symbol.toUpperCase()})
         </div>
       </Title>
