@@ -4,7 +4,7 @@ const initialState = {
   chartData: [],
 };
 
-const chartReducer = (state = initialState, action) => {
+const chartReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "LOADING":
       return {

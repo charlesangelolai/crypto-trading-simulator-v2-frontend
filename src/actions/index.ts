@@ -1,7 +1,17 @@
 import axios from "axios";
 
 // User Actions
-export const signUp = ({ firstName, lastName, email, password }) => {
+export const signUp = ({
+  firstName,
+  lastName,
+  email,
+  password,
+}: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}) => {
   const userParams = {
     user: {
       first_name: firstName,
@@ -11,7 +21,7 @@ export const signUp = ({ firstName, lastName, email, password }) => {
     },
   };
 
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +41,13 @@ export const signUp = ({ firstName, lastName, email, password }) => {
   };
 };
 
-export const signIn = ({ email, password }) => {
+export const signIn = ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
   const userParams = {
     user: {
       email: email,
@@ -39,7 +55,7 @@ export const signIn = ({ email, password }) => {
     },
   };
 
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     try {
       const resp = await axios.post("/login", userParams, {
         withCredentials: true,
@@ -55,7 +71,17 @@ export const signIn = ({ email, password }) => {
   };
 };
 
-export const updateUser = ({ id, firstName, lastName, email }) => {
+export const updateUser = ({
+  id,
+  firstName,
+  lastName,
+  email,
+}: {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+}) => {
   const userParams = {
     user: {
       first_name: firstName,
@@ -64,8 +90,7 @@ export const updateUser = ({ id, firstName, lastName, email }) => {
     },
   };
 
-  debugger;
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +112,7 @@ export const updateUser = ({ id, firstName, lastName, email }) => {
 
 // Chart Actions
 export const fetchChart = (coinID = "bitcoin") => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     dispatch({
       type: "LOADING",
     });
@@ -113,13 +138,8 @@ export const fetchChart = (coinID = "bitcoin") => {
 };
 
 // Wallet Table Actions
-export const getUserPositions = (userID) => {
-  return async (dispatch) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+export const getUserPositions = (userID: number) => {
+  return async (dispatch: any) => {
     try {
       const resp = await axios.get(`/users/${userID}`);
 
@@ -133,7 +153,7 @@ export const getUserPositions = (userID) => {
   };
 };
 
-export const sellCoin = (user, coin, position, qty) => {
+export const sellCoin = (user: any, coin: any, position: any, qty: number) => {
   // check for max qty
   qty = position.qty - qty > 0 ? qty : qty + (position.qty - qty);
   // calculate return
@@ -171,7 +191,7 @@ export const sellCoin = (user, coin, position, qty) => {
   };
   debugger;
 
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -199,7 +219,7 @@ export const sellCoin = (user, coin, position, qty) => {
         );
         const positionPayload = [positionResp.data].concat(
           user.positions.filter(
-            (position) => position.id !== positionResp.data.id
+            (position: any) => position.id !== positionResp.data.id
           )
         );
         debugger;
@@ -214,7 +234,7 @@ export const sellCoin = (user, coin, position, qty) => {
 
         dispatch({
           type: "DELETE_POSITION",
-          payload: user.positions.filter((p) => p.id !== position.id),
+          payload: user.positions.filter((p: any) => p.id !== position.id),
         });
       }
 
@@ -232,7 +252,7 @@ export const sellCoin = (user, coin, position, qty) => {
 
 // Market Table Actions
 export const fetchCoins = () => {
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const resp = await axios.get(
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
     );
@@ -244,7 +264,7 @@ export const fetchCoins = () => {
   };
 };
 
-export const buyCoin = (user, coin, qty) => {
+export const buyCoin = (user: any, coin: any, qty: number) => {
   // calculate cost
   let cost = coin.current_price * qty;
   // update user balance
@@ -281,7 +301,7 @@ export const buyCoin = (user, coin, qty) => {
     },
   };
 
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     const config = {
       headers: {
         "Content-Type": "application/json",

@@ -3,7 +3,7 @@ const initialState = {
   trades: [],
 };
 
-const tradesReducer = (state = initialState, action) => {
+const tradesReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "LOADING":
       return {

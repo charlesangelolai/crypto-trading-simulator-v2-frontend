@@ -3,7 +3,7 @@ const initialState = {
   positions: [],
 };
 
-const positionsReducer = (state = initialState, action) => {
+const positionsReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "LOADING":
       return {

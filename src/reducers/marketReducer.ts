@@ -4,7 +4,7 @@ const initialState = {
   search: "",
 };
 
-const marketReducer = (state = initialState, action) => {
+const marketReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "FETCH_COINS":
       return {

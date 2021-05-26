@@ -3,7 +3,7 @@ const initialState = {
   wallet: [],
 };
 
-const walletReducer = (state = initialState, action) => {
+const walletReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "LOADING":
       return {
